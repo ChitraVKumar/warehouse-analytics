@@ -23,6 +23,19 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Retrieve a single inventory item by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const item = await Inventory.findById(req.params.id); // Find item by ID
+        if (!item) {
+            return res.status(404).json({ message: 'Item not found' }); // Handle case where item doesn't exist
+        }
+        res.json(item); // Send the found item as the response
+    } catch (err) {
+        res.status(500).json({ error: err.message }); // Handle server or database errors
+    }
+});
+
 // Update an inventory item
 router.put('/:id', async (req, res) => {
     try {
